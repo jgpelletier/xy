@@ -89,7 +89,7 @@ function convert2dPointToDistance (p, height) { // :: Int -> Int -> Int -> Int
         d += level * level * ((3 * xbit) ^ ybit)
         // rotate so that we'll be in sync with the next
         // region.
-        p = p.rotate2d(height, xbit, ybit)
+        p = p.rotate2d(level, xbit, ybit)
     }
 
     return d
