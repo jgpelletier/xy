@@ -165,8 +165,8 @@ function convertDistanceTo3dPoint (distance, height) { // Int -> Int -> [Int, In
 
 // Rotate the coordinate plane and (x,y)
 function rotate2d (n, x, y, xbit, ybit) { // :: Int -> Int -> Int -> Int -> Int -> [Int, Int]
-    if (ybit === 0  ) {
-        if (xbit === 1) {
+    if (ybit == 0  ) {
+        if (xbit == 1) {
             x = n - 1 - x
             y = n - 1 - y
         }
