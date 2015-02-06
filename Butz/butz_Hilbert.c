@@ -22,6 +22,8 @@
  etc...
  */
 
+typedef unsigned int U_int;
+#define DIM 3
 // #if DIM == 1 const U_int g_mask[] = {1}; #endif
 // #if DIM == 2 const U_int g_mask[] = {2, 1}; #endif
 #if DIM == 3
@@ -29,8 +31,7 @@
 #endif
 // #if DIM == 4 const U_int g_mask[] = {8, 4, 2, 1}; #endif
 
- #define DIM 3
- typedef unsigned int U_int;
+//#define DIM 3
 
  #define ORDER 64
 
@@ -130,7 +131,7 @@ U_int calc_tS_tT(U_int xJ, U_int val)
     if (xJ % DIM != 0) {
         temp1 = val >> xJ % DIM;
         temp2 = val << DIM - xJ % DIM;
-        retval = temp1 | temp2
+        retval = temp1 | temp2;
         retval &= ((U_int)1 << DIM) - 1;
     }
     return retval;
