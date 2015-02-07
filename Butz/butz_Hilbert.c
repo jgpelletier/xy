@@ -33,7 +33,7 @@ typedef unsigned int U_int;
 
 //#define DIM 3
 
- #define ORDER 64
+ #define ORDER 32
 
  typedef struct {
      U_int hcode[DIM];
@@ -51,7 +51,7 @@ typedef unsigned int U_int;
 U_int calc_P (int i, Hcode H)
 {
     int element;
-    U_int P, temp1, temp2;
+    U_int P, temp1;
     element = i / ORDER;
     P = H.hcode[element];
     if (i % ORDER > ORDER - DIM) {
@@ -130,7 +130,7 @@ U_int calc_tS_tT(U_int xJ, U_int val)
 
     if (xJ % DIM != 0) {
         temp1 = val >> xJ % DIM;
-        temp2 = val << DIM - xJ % DIM;
+        temp2 = (val << DIM) - xJ % DIM;
         retval = temp1 | temp2;
         retval &= ((U_int)1 << DIM) - 1;
     }
@@ -144,9 +144,9 @@ U_int calc_tS_tT(U_int xJ, U_int val)
 
 Point H_decode (Hcode H)
 {
-    U_int mask = (U_int)1 << ORDER - 1, A, W = 0, S, tS, T, tT, J, P = 0, xJ;
+    U_int mask = (U_int)1 << (ORDER - 1), A, W = 0, S, tS, T, tT, J, P = 0, xJ;
 
-    Point pt = {0};
+    Point pt = {{0}};
 
     int i = ORDER * DIM - DIM, j;
     P = calc_P(i, H);
@@ -189,8 +189,8 @@ Point H_decode (Hcode H)
 
 Hcode H_encode(Point pt)
 {
-    U_int mask = (U_int)1 << ORDER - 1, element, A, W = 0, S, tS, T, tT, J, P = 0, xJ;
-    Hcode h = {0};
+    U_int mask = (U_int)1 << (ORDER - 1), element, A, W = 0, S, tS, T, tT, J, P = 0, xJ;
+    Hcode h = {{0}};
     int i = ORDER * DIM - DIM, j;
 
     for (j = A = 0; j < DIM; j++)
@@ -207,10 +207,10 @@ Hcode H_encode(Point pt)
     if (i % ORDER > ORDER - DIM)
     {
         h.hcode[element] |= P << i % ORDER;
-        h.hcode[element + 1] |= P >> ORDER - i % ORDER;
+        h.hcode[element + 1] |= P >> (ORDER - i) % ORDER;
     }
     else
-        h.hcode[element] |= P << i - element * ORDER;
+        h.hcode[element] |= (P << i) - element * ORDER;
 
     J = calc_J(P);
     xJ = J - 1;
@@ -231,10 +231,10 @@ Hcode H_encode(Point pt)
         if (i % ORDER > ORDER - DIM)
         {
             h.hcode[element] |= P << i % ORDER;
-            h.hcode[element + 1] |= P >> ORDER - i % ORDER;
+            h.hcode[element + 1] |= P >> (ORDER - i) % ORDER;
         }
         else
-            h.hcode[element] |= P << i - element * ORDER;
+            h.hcode[element] |= (P << i) - element * ORDER;
 
         if (i > 0) {
             T = calc_T(P);
