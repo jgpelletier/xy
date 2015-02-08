@@ -29,20 +29,15 @@ typedef unsigned int U_int;
 #if DIM == 3
     const U_int g_mask[] = {4, 2, 1};
 #endif
-// #if DIM == 4 const U_int g_mask[] = {8, 4, 2, 1}; #endif
 
-//#define DIM 3
 
- #define ORDER 32
+#define ORDER 32
 
  typedef struct {
      U_int hcode[DIM];
  }Hcode;
 
  typedef Hcode Point;
-
-// const U_int g_mask[] = {4, 2, 1};
-// #if DIM == 3 const U_int g_mask {4, 2, 1}; #endif
 
 /*===========================================================*/
 /* calc_P */
@@ -244,10 +239,14 @@ Hcode H_encode(Point pt)
     }
     return h;
 }
-/*
-int main
-{
-   printf("distance %d\n", Point H_decode (Hcode H[2]));
 
+int main()
+{
+
+    Hcode distance;
+    distance.hcode[0] = 1;
+    distance.hcode[1] = 0;
+    distance.hcode[2] = 0;
+    distance = H_decode (distance);
+    return 0;
 }
-*/
