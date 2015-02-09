@@ -50,8 +50,10 @@ U_int calc_P (int i, Hcode H)
     element = i / ORDER;
     P = H.hcode[element];
     if (i % ORDER > ORDER - DIM) {
-        temp1 = H.hcode[element + 1]; P >>= i % ORDER;
-        temp1 <<= ORDER - i % ORDER; P |= temp1;
+        temp1 = H.hcode[element + 1];
+        P >>= i % ORDER;
+        temp1 <<= ORDER - i % ORDER;
+        P |= temp1;
     } else
         P>>=i%ORDER; /*P is a DIM bit h code*/
 
@@ -74,7 +76,8 @@ U_int calc_P2(U_int S)
     P = S & g_mask[0];
     for (i = 1; i < DIM; i++)
         if( S & g_mask[i] ^ (P >> 1) & g_mask[i])
-        P |= g_mask[i];
+            P |= g_mask[i];
+
     return P;
 }
 
@@ -87,8 +90,8 @@ U_int calc_J (U_int P)
 {
     int i;
     U_int J;
-    J = DIM;
 
+    J = DIM;
     for (i = 1; i < DIM; i++)
         if ((P >> i & 1) == (P & 1))
             continue;
@@ -139,15 +142,16 @@ U_int calc_tS_tT(U_int xJ, U_int val)
 
 Point H_decode (Hcode H)
 {
+    // Add Paranthesis around vvv
     U_int mask = (U_int)1 << (ORDER - 1), A, W = 0, S, tS, T, tT, J, P = 0, xJ;
 
     Point pt = {{0}};
-
     int i = ORDER * DIM - DIM, j;
     P = calc_P(i, H);
     J = calc_J(P);
     xJ = J - 1;
-    A = S = tS = P ^ P / 2; T = calc_T(P);
+    A = S = tS = P ^ P / 2;
+    T = calc_T(P);
     tT = T;
 
     /*--- distrib bits to coords ---*/
@@ -240,13 +244,12 @@ Hcode H_encode(Point pt)
     return h;
 }
 
+// How does this work?
 int main()
 {
-
-    Hcode distance;
-    distance.hcode[0] = 1;
-    distance.hcode[1] = 0;
-    distance.hcode[2] = 0;
-    distance = H_decode (distance);
+    Hcode h = {{0}};
+    Hcode p = {{0}};
+    h = H_encode (h);
+    p = H_decode(p);
     return 0;
 }
