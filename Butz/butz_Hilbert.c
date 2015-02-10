@@ -155,10 +155,11 @@ Point H_decode (Hcode H)
     tT = T;
 
     /*--- distrib bits to coords ---*/
-    for (j = DIM - 1; P > 0; P >>=1, j--)
-        if (P & 1)
+    for (j = DIM - 1; P > 0; P >>=1, j--) {
+        if (P & 1) {
             pt.hcode[j] |= mask;
-
+        }
+    }
     for (i -= DIM, mask >>= 1; i >=0; i -= DIM, mask >>= 1) {
         P = calc_P(i, H);
         S = P ^ P / 2;
@@ -166,9 +167,11 @@ Point H_decode (Hcode H)
         A = W ^ tS;
         /*--- distrib bits to coords ---*/
 
-        for (j = DIM - 1; A > 0; A >>=1, j--)
-            if (A & 1)
+        for (j = DIM - 1; A > 0; A >>=1, j--) {
+            if (A & 1) {
                 pt.hcode[j] |= mask;
+            }
+        }
 
         if (i > 0) {
             T = calc_T(P);
@@ -192,9 +195,11 @@ Hcode H_encode(Point pt)
     Hcode h = {{0}};
     int i = ORDER * DIM - DIM, j;
 
-    for (j = A = 0; j < DIM; j++)
-        if (pt.hcode[j] & mask)
-            A |= g_mask[j]; tS = A;
+    for (j = A = 0; j < DIM; j++) {
+        if (pt.hcode[j] & mask) {
+            A |= g_mask[j];
+        }
+    }
 
     S = tS = A;
 
@@ -206,10 +211,10 @@ Hcode H_encode(Point pt)
     if (i % ORDER > ORDER - DIM)
     {
         h.hcode[element] |= P << i % ORDER;
-        h.hcode[element + 1] |= P >> (ORDER - i) % ORDER;
+        h.hcode[element + 1] |= P >> (ORDER - i % ORDER);
     }
     else
-        h.hcode[element] |= (P << i) - element * ORDER;
+        h.hcode[element] |= P << (i - element * ORDER);
 
     J = calc_J(P);
     xJ = J - 1;
@@ -217,9 +222,13 @@ Hcode H_encode(Point pt)
     tT = T;
 
     for (i -= DIM, mask >>= 1; i >=0; i -= DIM, mask >>= 1) {
-        for (j = A = 0; j < DIM; j++)
-            if (pt.hcode[j] & mask)
+
+        for (j = A = 0; j < DIM; j++) {
+            if (pt.hcode[j] & mask) {
                 A |= g_mask[j];
+            }
+        }
+
         W ^= tT;
         tS = A ^ W;
         S = calc_tS_tT(xJ, tS);
@@ -227,13 +236,12 @@ Hcode H_encode(Point pt)
 
         /* add in DIM bits to hcode */
         element = i / ORDER;
-        if (i % ORDER > ORDER - DIM)
-        {
+        if (i % ORDER > ORDER - DIM) {
             h.hcode[element] |= P << i % ORDER;
-            h.hcode[element + 1] |= P >> (ORDER - i) % ORDER;
+            h.hcode[element + 1] |= P >> (ORDER - i % ORDER);
+        } else {
+            h.hcode[element] |= P << (i - element * ORDER);
         }
-        else
-            h.hcode[element] |= (P << i) - element * ORDER;
 
         if (i > 0) {
             T = calc_T(P);
