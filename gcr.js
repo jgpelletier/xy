@@ -1,4 +1,5 @@
 /*
+    input for gray code ranking:s
     n = number of bits
     mu = a mask in B^n
     pi = a pattern in B^n such that (pi & mu) = 0 <- should be able to get this
