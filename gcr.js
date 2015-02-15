@@ -33,3 +33,64 @@ function mask (string) { // :: str -> arr
     }
    return mu
 }
+
+// Pattern
+/*
+function pattern (string) { // :: str -> arr
+
+}
+*/
+// or
+
+function pattern (mask) { // :: arr -> arr
+    var pi = []
+    var maskNum = mask.join("")
+    var i = 1
+    var piString = i.toString(2).split('')
+
+    maskNum = parseInt(maskNum, 2)
+    while (((maskNum & i) != 0) && (piString.length != mask.length)) {
+        i++
+        piString = i.toString(2).split('')
+        console.log(piString)
+
+    }
+
+    for (var j = 0; j < piString.length; j++) {
+        pi[j] = parseInt(piString[j], 10)
+    }
+
+    return pi
+    /*
+    if ((maskNum & i) == 0) {
+        piString = i.toString(2).split('')
+        if (piString.length == mask.length) {
+            for (var j = 0; j < piString.length; j++) {
+                pi[j] = parseInt(piString[j], 10)
+            }
+        return pi
+    } else {
+        while ((maskNum & i) != 0) {
+             i++
+        }
+
+        piString = i.toString(2).split('')
+
+        }
+    }
+    for (var i = 0; i < mask.length; i++ ) {
+        pi[i] = 0
+        if ((pi[i] & mask[i]) == 0) pi[i] = 0
+        else pi[i] = 1
+    }
+    */
+}
+
+function main (string) {
+    var mu = mask(string)
+    var pi = pattern(mu)
+    return pi
+    //return mu
+}
+
+console.log(main('010110'))
