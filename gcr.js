@@ -34,14 +34,8 @@ function mask (string) { // :: str -> arr
    return mu
 }
 
-// Pattern
-/*
-function pattern (string) { // :: str -> arr
-
-}
-*/
-// or
-
+// it may not be possible to derive the pattern from the
+// mask. It may need to be given.
 function pattern (mask) { // :: arr -> arr
     var pi = []
     var maskNum = mask.join("")
@@ -49,10 +43,13 @@ function pattern (mask) { // :: arr -> arr
     var piString = i.toString(2).split('')
 
     maskNum = parseInt(maskNum, 2)
-    while (((maskNum & i) != 0) && (piString.length != mask.length)) {
+    var x = maskNum & i
+
+    // need to enter the loop
+    while ( x != 0) { // && (piString.length != mask.length)) {
         i++
         piString = i.toString(2).split('')
-        console.log(piString)
+        //console.log(piString)
 
     }
 
