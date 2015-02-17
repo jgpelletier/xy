@@ -2,6 +2,8 @@ var gray = require('gray-code')
 
 /*
     input for gray code ranking:
+/*
+    input for gray code ranking:s
     n = number of bits
     mu = a mask in B^n
     pi = a pattern in B^n such that (pi & mu) = 0 <- should be able to get this
@@ -91,3 +93,12 @@ function main (string) {
 }
 
 console.log(main('010110'))
+
+function bitArray (number) {
+    var bits = []
+    var binaryString = number.toString(2).split("")
+    for (var i = 0; i < binaryString.length; i++) {
+        bits[i] = parseInt(binaryString[i], 10)
+    }
+    return bits
+}
