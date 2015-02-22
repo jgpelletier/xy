@@ -198,7 +198,7 @@ function rotate3d(level, x, y, z) { // :: Int -> Int -> Int -> Int -> [Int, Int,
 }
 
 // returns a non-negative int 'inverse' such that graycode(inverse) = g
-function grayInverse (g) { // : Int -> Int
+exports.grey = function grayInverse (g) { // : Int -> Int
     var m = bits(g), inverse = g, j = 1
     while (j < m) {
         inverse = inverse ^ (g >> j)
@@ -227,29 +227,45 @@ function bitwiseRotateLeft (x, n) {
     return (x << n) | (x >> (32 - n)) & ~(-1 << n)
 }
 
-function grayTransform (entry, direction, x) {
+exports.gc = function grayTransform (entry, direction, x) {
     return bitwiseRotateRight((x ^ entry), direction + 1)
 }
 
 function hilbertIndex(dim, precision, point) {
+    // dim = n
+    // precision = m
+    // p = point (5,6)
+    // vvv this transformation needs to happen
+    // l = [ bit [ 101, 110 ] <- not exactly, this is takes a single bit
+    //              ^^ this may be reverse order
+    // entry = e
+    // direction = d
+    // code = w
+    // index = h
     var index = 0, entry = 0, direction = 0, i = precision - 1, code
 
+    //
     while (i >= 0) {
-        var arr = point.toArray()
+
+        var arr = point.toArray()// transform the points to binary.
+        // l = [bit(p sub n-1 ; i), bit(p sub n 0 ; i)] [11], [10], [01]
         var bits = 0
 
+        // what is this vvv?
         for (var k = 0; k < arr.length; k++) {
             if (arr[arr.length - (k+1)] & (1 << (i - 1))) {
                 // need to set kth bit, not ith
                 bits |= 1 << k
             }
         }
+        // ^^^ what is this ^^^?
 
         console.log(bits.toString(2))
+        // vv look into each of these variables as well as the functions
+        bits = grayTransform(entry, direction, bits) // transform <- 3, 2, 1
+        code = grayInverse(bits) // 2, 3, 1
 
-        bits = grayTransform(entry, direction, bits)
-        code = grayInverse(bits)
-
+        // vvv new entry direction and index
         entry = entry ^ bitwiseRotateLeft((entry * code), direction + 1)
         direction = direction + (direction * code) + (1 % dim)
         index = (index << dim) | code
@@ -257,7 +273,7 @@ function hilbertIndex(dim, precision, point) {
         i--
     }
 
-    return index
+    return index // set B subscript M
 }
 
 exports.xy2d = function (x, y, height) {
