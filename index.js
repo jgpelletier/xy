@@ -236,10 +236,8 @@ function hilbertIndex(dim, precision, point) {
     // precision = m
     // p = point (5,6)
     // vvv this transformation needs to happen
-    // l = [ bit [ 101, 110 ] <- not exactly, this is takes a single bit
-    //              ^^ this may be reverse order
     // entry = e
-    // direction = d
+    // direction = d <- this is n-1. Interesting its set as 0.
     // code = w
     // index = h
     var index = 0, entry = 0, direction = 0, i = precision - 1, code
@@ -262,13 +260,14 @@ function hilbertIndex(dim, precision, point) {
 
         console.log(bits.toString(2))
         // vv look into each of these variables as well as the functions
+        // does bits go in as a string?
         bits = grayTransform(entry, direction, bits) // transform <- 3, 2, 1
         code = grayInverse(bits) // 2, 3, 1
 
         // vvv new entry direction and index
-        entry = entry ^ bitwiseRotateLeft((entry * code), direction + 1)
-        direction = direction + (direction * code) + (1 % dim)
-        index = (index << dim) | code
+        entry = entry ^ bitwiseRotateLeft((entry * code), direction + 1)//0,3,3
+        direction = direction + (direction * code) + (1 % dim) //<- 1,0,0
+        index = (index << dim) | code // <-2, 11, 45
 
         i--
     }
