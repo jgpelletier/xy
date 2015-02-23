@@ -1,14 +1,16 @@
 var gray = require('gray-code')
 
 /*
-    input for gray code ranking:
-/*
-    input for gray code ranking:s
+
+    input for gray code rankings:
     n = number of bits
     mu = a mask in B^n
     pi = a pattern in B^n such that (pi & mu) = 0 <- should be able to get this
     based on the mask.
     i = a value in a set of points.
+
+    what's k?
+
 */
 
 // this was for the number. It may be unnecessary.
@@ -23,8 +25,6 @@ function bitArray (number) { // :: int -> arr
     return bits
 }
 
-
-
 // get bit length from the mask.
 function mask (string) { // :: str -> arr
     var mu = []
@@ -34,6 +34,26 @@ function mask (string) { // :: str -> arr
          mu[i] = parseInt(muString[i], 10)
     }
    return mu
+}
+
+function gcr (precision, string, number) {
+    var i = bitArray(number)
+    var mu = mask(string)
+    var r = 0
+    var k = 0
+    while (i.length < precision) {
+        i = [0].concat(i)
+    }
+
+    while (k < precision) {
+
+        if (mu[k] == 1) {
+           r = (r << 1) | i[k]
+        }
+        precision--
+    }
+
+    return r
 }
 
 // it may not be possible to derive the pattern from the
@@ -88,17 +108,9 @@ function pattern (mask) { // :: arr -> arr
 function main (string) {
     var mu = mask(string)
     var pi = pattern(mu)
-    return pi
+    //return pi
     //return mu
+    return gcr(6, string, 8)
 }
 
 console.log(main('010110'))
-
-function bitArray (number) {
-    var bits = []
-    var binaryString = number.toString(2).split("")
-    for (var i = 0; i < binaryString.length; i++) {
-        bits[i] = parseInt(binaryString[i], 10)
-    }
-    return bits
-}
