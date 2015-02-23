@@ -50,7 +50,7 @@ function gcr (precision, string, number) {
         if (mu[k] == 1) {
            r = (r << 1) | i[k]
         }
-        precision--
+        k++
     }
 
     return r
@@ -110,7 +110,7 @@ function main (string) {
     var pi = pattern(mu)
     //return pi
     //return mu
-    return gcr(6, string, 8)
+    return gcr(6, string, 12)
 }
 
 console.log(main('010110'))
