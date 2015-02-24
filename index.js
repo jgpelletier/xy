@@ -248,16 +248,42 @@ function hilbertIndex(dim, point) {
     // direction = d <- this is n-1. Interesting its set as 0.
     // code = w
     // index = h
+    var xBits = []
+    var yBits = []
+
+    if (arr[0])
+        var x = arr[0].toString(2).split("")
+        for (var a = 0; a < x.length; a++) {
+            xBits[a] = parseInt(x[a], 10)
+        }
+    }
+
+    if (arr[1])
+        var y = arr[1].toString(2).split("")
+        for (a = 0; a < y.length; a++) {
+            yBits[a] = parseInt(y[a], 10)
+        }
+    }
+
+   // ^^^ Will need z for 3d. There is probably a better way to do this.
 
     while (i >= 0) {
         // l = [bit(p sub n-1 ; i), bit(p sub n 0 ; i)] [11], [10], [01]
         var bits = 0
 
+        /*
         for (var k = 0; k < arr.length; k++) {
             if (arr[arr.length - (k+1)] & (1 << (i - 1))) {
                 bits |= 1 << k
             }
         }
+        */
+
+
+        var l = []
+        l = [ yBits.shift(), xBits.shift() ]
+        l = l.join('')
+        l = parseInt(l, 2)
 
         // vv look into each of these variables as well as the functions
         // does bits go in as a string?
