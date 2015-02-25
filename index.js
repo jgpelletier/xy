@@ -219,12 +219,16 @@ function precision (n) { // :: Int > Int
 
 // Rotates the bits of x to the right by n. no sign preservation.
 function bitwiseRotateRight (x, n) { // :: Int -> Int -> Int
+
+    // the function only works for even numbers.
+    // How do we get it to work for odd numbers?
+
+    //                  vvv this gives a ridiculous number
     var y = (x >> n) & ~(-1 << (32 - n))
     var z = x << (32 - n)
     return y | z
-    /*
-    return (x >> n) | (x << (32 - n)) & ~(-1 >> n)
-    */
+
+    //return (x >> n) | (x << (32 - n)) & ~(-1 >> n)
 }
 
 // Rotates the bits of x to the left by n. ''
