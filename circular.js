@@ -1,10 +1,13 @@
+/*
+var assert = require('assert')
+function rotate (width, move, n) {
+    assert(move <= width, 'move must be less than or equal to width')
+    var mask = (0xffffffff << 32 - width >>> 32 - width)
+    return (n << move & mask) | (n >>> width - move)
+}
+*/
+
 function bitwiseRotateLeft (x, n, m) { // :: Int -> Int -> Int
-    /*
-    var y = (x >> n) & ~(-1 << (32 - n))
-    var z = x << (32 - n)
-    return y | z
-    return (x >> n) | (x << (32 - n)) & ~(-1 >> n)
-    */
 
     var mask = (0xffffffff >>> 32 - m /*<< 32 - m*/)
     var a = (n & mask).toString(2)
@@ -57,11 +60,10 @@ console.log("n = 2")
 console.log("m = 3")
 console.log("")
 
-console.log('x' + '\t' + 'mask' + "\t\t" + 'a' + '\t' + 'b' + '\t' + 'c' + '\t' + 'd')
+console.log('x' + '\t' + 'mask' + "\t" + 'a' + '\t' + 'b' + '\t' + 'c' + '\t' + 'd')
 bitwiseRotateLeft(1,2,3)
 bitwiseRotateLeft(2,2,3)
 bitwiseRotateLeft(3,2,3)
-console.log("")
 bitwiseRotateLeft(4,2,3)
 bitwiseRotateLeft(5,2,3)
 bitwiseRotateLeft(6,2,3)
