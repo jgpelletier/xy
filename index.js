@@ -251,7 +251,7 @@ function trailingSetBits (i) {
 }
 
 function hilbertIndex(dim, point) {
-    var index = 0, entry = 0, direction = 0, arr = point.toArray(), code,
+    var index = 0, entry = 0, direction = (dim - 1), arr = point.toArray(), code,
         i = precision(Math.max.apply(null, arr)) - 1
     console.log("ENTER HILBERT")
     while (i >= 0) {
