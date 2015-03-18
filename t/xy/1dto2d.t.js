@@ -1,6 +1,6 @@
 #!/usr/bin/env node
 
-require('proof')(39, prove)
+require('proof')(43, prove)
 
 function prove (assert) {
     var hilbert = require('../..')
@@ -13,7 +13,8 @@ function prove (assert) {
     assert(hilbert.hilbertInverse(2,6), [1,3], "index 6 equals point [1,3]")
     assert(hilbert.hilbertInverse(2,7), [1,2], "index 7 equals point [1,2]")
     assert(hilbert.hilbertInverse(2,8), [2,2], "index 8 equals point [2,2]")
-    assert(hilbert.hilbertInverse(2, 1073741823), [32767,0], "index 1073741823 equals point [32767,0]")
+    assert(hilbert.hilbertInverse(2,15), [3,0], "index 15 equals point [3,0]")
+    assert(hilbert.hilbertInverse(2,16), [0,4], "index 16 equals point [0,4]")
 
     // works when precision is 2
     assert(hilbert.hilbertInverse(3,0), [0,0,0], "index 0 equals point [0,0,0]")
@@ -55,4 +56,7 @@ function prove (assert) {
     // precision should be 11
     assert(hilbert.hilbertInverse(3,1073741823), [1023,0,0], "Index 1073741823 equals [1023,0,0]")
 
+    assert(hilbert.hilbertInverse(4,15), [1,0,0,0], "Index 15 equals [1,0,0,0]")
+    assert(hilbert.hilbertInverse(4,16777215), [63,0,0,0], "Index 16777215 equals [63,0,0,0]")
+    assert(hilbert.hilbertInverse(4,268435455), [127,0,0,0], "Index 268435455 equals [127,0,0,0]")
 }
